@@ -1,5 +1,8 @@
 @extends('layouts.master')
 @section('content')
+<link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.dataTables.css" />
+  <script src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script>
+  <script src="{{ asset('js/publisher.js') }}"></script>
     <div id="items" class="container">
         <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#publisherModal">add<span
             class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
@@ -18,16 +21,15 @@
             <table id="publisherTable" class="table table-striped table-hover">
                 <thead>
                     <tr>
-                        <th>Publisher ID</th>
                         <th>image</th>
                         <th>Name</th>
                         <th>Email</th>
                         <th>Phone</th>
                         <th>Status</th> 
                         <th>Country</th> 
+                        <th>Edit</th> 
+                        <th>Delete</th> 
                     
-                        <th>Edit</th>
-                        <th>Delete</th>
                     </tr>
                 </thead>
                 <tbody id="publisherBody"></tbody>

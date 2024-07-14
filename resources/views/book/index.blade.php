@@ -1,5 +1,8 @@
 @extends('layouts.master')
 @section('content')
+<link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.dataTables.css" />
+  <script src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script>
+  <script src="{{ asset('js/book.js') }}"></script>
     <div id="items" class="container">
         <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#bookModal">add<span
             class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
@@ -18,15 +21,13 @@
             <table id="bookTable" class="table table-striped table-hover">
                 <thead>
                     <tr>
-                        <th>Book ID</th>
-                        <th>Images</th>
+
                         <th>Title</th>
                         <th>Genre</th>
                         <th>Publication</th>
                         <th>Language</th>
                         <th>Reviews</th>
                         <th>Summary</th>
-                        
                         <th>Edit</th>
                         <th>Delete</th>
                     </tr>

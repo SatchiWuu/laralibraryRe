@@ -1,33 +1,69 @@
 $(document).ready(function () {
-    $.ajax({
-        type: "GET",
-        url: "/api/book",
-        dataType: 'json',
-        success: function (data) {
-            console.log(data);
-            $.each(data, function (key, value) {
-                console.log(value);
-                id = value.id;
-                var img = "<img src='storage/" + value.images + "' width='200px', height='200px'/>";
-                var tr = $("<tr>");
-                tr.append($("<td>").html(value.id));
-                tr.append($("<td>").html(img));
-                tr.append($("<td>").html(value.title));
-                tr.append($("<td>").html(value.publication));
-                tr.append($("<td>").html(value.genre));
-                tr.append($("<td>").html(value.language ));
-                tr.append($("<td>").html(value.summary));
-                tr.append($("<td>").html(value.reviews));
-                tr.append("<td align='center'><a href='#' data-toggle='modal' data-target='#bookModal' id='editbtn' data-id=" + id + "><i class='fas fa-edit' aria-hidden='true' style='font-size:24px; color:blue'></i></a></td>");
-                tr.append("<td><a href='#'  class='deletebtn' data-id=" + id + "><i  class='fa fa-trash' style='font-size:24px; color:red' ></a></i></td>");
-                $("#bookBody").append(tr);
-            });
+    new DataTable('#bookTable', {
+        ajax: {
+            url: 'api/book',
+            dataType: 'json',
+            dataSrc: ''  // This ensures DataTables expects an array directly from the JSON response
         },
-        error: function () {
-            console.log('AJAX load did not work');
-            alert("error");
-        }
+        columns: [
+            { data: 'title' },
+            { data: 'publication' },
+            { data: 'genre' },
+            { data: 'language' },
+            { data: 'summary' },
+            { data: 'reviews' },
+            {
+                data: null,
+                render: function (data, type, row) {
+                    return '<button data-toggle="modal" data-target="#bookModal" class="btn btn-sm btn-primary edit-btn" data-id="' + row.id + '">Edit</button>';
+                }
+            },
+            {
+                data: null,
+                render: function (data, type, row) {
+                    return '<button class="btn btn-sm btn-danger delete-btn deletebtn"  data-id="' + row.id + '">Delete</button>';
+                }
+            }
+        ],
+        columnDefs: [
+            {
+                targets: [6, 7],  // Targets the 7th and 8th columns (edit and delete buttons)
+                orderable: false,  // Disable ordering on these columns
+                searchable: false  // Disable searching on these columns
+            }
+        ]
+        
     });
+
+    // $.ajax({
+    //     type: "GET",
+    //     url: "/api/book",
+    //     dataType: 'json',
+    //     success: function (data) {
+    //         console.log(data);
+    //         $.each(data, function (key, value) {
+    //             console.log(value);
+    //             id = value.id;
+    //             var img = "<img src='storage/" + value.images + "' width='200px', height='200px'/>";
+    //             var tr = $("<tr>");
+    //             tr.append($("<td>").html(value.id));
+    //             tr.append($("<td>").html(img));
+    //             tr.append($("<td>").html(value.title));
+    //             tr.append($("<td>").html(value.publication));
+    //             tr.append($("<td>").html(value.genre));
+    //             tr.append($("<td>").html(value.language ));
+    //             tr.append($("<td>").html(value.summary));
+    //             tr.append($("<td>").html(value.reviews));
+    //             tr.append("<td align='center'><a href='#' data-toggle='modal' data-target='#bookModal' id='editbtn' data-id=" + id + "><i class='fas fa-edit' aria-hidden='true' style='font-size:24px; color:blue'></i></a></td>");
+    //             tr.append("<td><a href='#'  class='deletebtn' data-id=" + id + "><i  class='fa fa-trash' style='font-size:24px; color:red' ></a></i></td>");
+    //             $("#bookBody").append(tr);
+    //         });
+    //     },
+    //     error: function () {
+    //         console.log('AJAX load did not work');
+    //         alert("error");
+    //     }
+    // });
 
     $('#bookTable').on('click', 'a.deletebtn', function (e) {
         var id = $(this).data('id');
@@ -72,10 +108,9 @@ $(document).ready(function () {
     });
 
     $('#bookModal').on('show.bs.modal', function(e) {
-        
         console.log(e.relatedTarget)
         var id = $(e.relatedTarget).attr('data-id');
-        console.log(id);
+        console.log("id is"+id);
         if (id !== undefined ) {
             
         } else {
