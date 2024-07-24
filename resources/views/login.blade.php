@@ -20,7 +20,7 @@
         integrity="sha512-vWTrt2A9iAn2pK8hNZS26YZRDDUvLiOfyL+MmBEXJizrigtxnpLuLrLOOMm+pcrUJFzGssUwoS6Gofp+TT2deQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" />
-
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css">
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"
         integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
@@ -46,66 +46,76 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.min.js" integrity="sha512-L0Shl7nXXzIlBSUUPpxrokqq4ojqgZFQczTYlGjzONGTDAcLremjwaWv5A+EDLnxhQzY5xUZPWLOLqYRkY0Cbw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     {{-- <script src="{{ asset('vendor/datatables/buttons.server-side.js') }}"></script> --}}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.5.2/bootbox.min.js" integrity="sha512-RdSPYh1WA6BF0RhpisYJVYkOyTzK4HwofJ3Q7ivt/jkpW6Vc8AurL1R+4AUcvn9IwEKAPm/fk7qFZW3OuiUDeg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="{{ asset('js/user.js') }}"></script>
     @yield('styles')
 </head>
 
 <body>
-<nav class="navbar navbar-expand-lg navbar-light p-3">
-  <a class="navbar-brand" href="#">Navbar</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse bg-light d-flex justify-content-between p-3" id="navbarNavDropdown">
-    <ul class="navbar-nav">
-      <li class="nav-item active">
-        <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Features</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Pricing</a>
-      </li>
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          CRUDs
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <a class="dropdown-item" href="/authors">Author</a>
-          <a class="dropdown-item" href="/publisher">Publisher</a>
-          <a class="dropdown-item" href="/book">Book</a>
+   
+<style>
+    .has-error {
+        border: 1px solid red;
+    }
+</style>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">{{ __('Login') }}</div>
+
+                @guest 
+                @else 
+                {{ Auth::user()->name }}
+                @endguest
+                <div class="card-body">
+                    <form id="form_login" name="form_login" enctype="multipart/form-data" action="#" method="#">
+                        @csrf
+                        <div class="row mb-3">
+                            <label for="email" class="col-md-4 col-form-label text-md-end">{{ __('Email Address') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label for="password" class="col-md-4 col-form-label text-md-end">{{ __('Password') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="password" type="password" class="form-control" name="password" required autocomplete="current-password">
+
+                        
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6 offset-md-4">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
+
+                                    <label class="form-check-label" for="remember">
+                                        {{ __('Remember Me') }}
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mb-0">
+                            <div class="col-md-8 offset-md-4">
+                                <button type="button" class="btn btn-primary" id="loginButton" name="loginButton">
+                                    {{ __('Login') }}
+                                </button>
+
+                                @if (Route::has('password.request'))
+                                    <a class="btn btn-link" href="{{ route('password.request') }}">
+                                        {{ __('Forgot Your Password?') }}
+                                    </a>
+                                @endif
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
-      </li>
-    </ul>
-    <div class="d-flex flex-row">
-      @guest
-      <div>
-        <a class="btn btn-info" href="/register">Register</a>
-        <a class="btn btn-info" href="/login">Login</a>
-      </div>
-      @else
-      <div>
-        <button class="btn btn-info">{{ Auth::user()->name }}</button>
-        <form id="logout-form" action="/logout" method="POST">
-            @csrf
-            <button type="submit" class="btn btn-info">Logout</button>
-        </form>
-      </div>
-      @endguest
-      &nbsp;
-      <form class="form-inline my-2 my-lg-0">
-        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-      </form>
     </div>
-    
-  </div>
-</nav>
-    <div class="container">
-        @yield('content')
-    </div>
-
-
-</body>
-
-</html>
+</div>

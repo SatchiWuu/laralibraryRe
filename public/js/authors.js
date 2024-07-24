@@ -1,5 +1,4 @@
 $(document).ready(function () {
-
     new DataTable('#authorTable', {
         ajax: {
             url: 'api/authors',
@@ -15,19 +14,19 @@ $(document).ready(function () {
             {
                 data: null,
                 render: function (data, type, row) {
-                    return '<button data-toggle="modal" data-target="#bookModal" class="btn btn-sm btn-primary edit-btn" data-id="' + row.id + '">Edit</button>';
+                    return '<button data-toggle="modal" data-target="#authorModal" class="btn btn-sm btn-primary edit-btn" data-id="' + row.id + '">Edit</button>';
                 }
             },
             {
                 data: null,
                 render: function (data, type, row) {
-                    return '<button class="btn btn-sm btn-danger delete-btn deletebtn"  data-id="' + row.id + '">Delete</button>';
+                    return '<a class="btn btn-sm btn-danger delete-btn deletebtn text-light"  data-id="' + row.id + '">Delete</a>';
                 }
             }
         ],
         columnDefs: [
             {
-                targets: [6, 7],  // Targets the 7th and 8th columns (edit and delete buttons)
+                targets: [5, 6],  // Targets the 7th and 8th columns (edit and delete buttons)
                 orderable: false,  // Disable ordering on these columns
                 searchable: false  // Disable searching on these columns
             }

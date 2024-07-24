@@ -21,14 +21,14 @@
             <table id="authorTable" class="table table-striped table-hover">
                 <thead>
                     <tr>
-                    <th>lname</th>
-                    <th>fname</th>
-                    <th>address</th>
-                    <th>phone</th>
-                    <th>gender</th>
-                    
-                    <th>Edit</th>
-                    <th>Delete</th>
+                      <th>lname</th>
+                      <th>fname</th>
+                      <th>address</th>
+                      <th>phone</th>
+                      <th>gender</th>
+                      
+                      <th>Edit</th>
+                      <th>Delete</th>
                     </tr>
                 </thead>
                 <tbody id="authorBody"></tbody>

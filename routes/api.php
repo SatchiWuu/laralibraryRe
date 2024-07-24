@@ -4,7 +4,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthorController;
 use App\Http\Controllers\BookController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PublisherController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,3 +27,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::get('/getAuthors', [AuthorController::class, 'index']);
+Route::get('/fetchData', [BookController::class, 'bookDetails']);
+Route::post('/register', [UserController::class, 'register']);
+Route::post('/login', [UserController::class, 'login']);
+Route::post('/authenticate', [UserController::class, 'authenticate']);
+Route::middleware('auth:sanctum')->get('/home', [UserController::class, 'check']);
+
+
